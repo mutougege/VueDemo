@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My first Vue app</title>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+    <div id="app-2">
+      <span v-bind:title="message">
+        hold on
+      </span>
+    </div>
+
+    <div id="app">
+      <p v-if="cho">see me</p>
+    </div>
+
+    <div id="app3">
+      <ol>
+        <li>ddddd</li>
+        <li>eeeee</li>
+        <li v-for="item in items">{{item.name}}</li>
+      </ol>
+    </div>
+
+    <div id="app4">
+      <p>{{message}}</p>
+      <button v-on:click="method">reverse</button>
+      <p>{{reverseMessage}}</p>
+    </div>
+
+    <div id="app5">
+      <ol>
+        <todolist
+          v-for="item in items"
+          v-bind:dat="item"
+          v-bind:key="item.id"
+        ></todolist>
+      </ol>
+    </div>
+
+    <div id="app6" v-bind:class="classObject" v-bind:style="styleObj">
+      active
+    </div>
+
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          cho: false
+        }
+      });
+
+      var app2 = new Vue({
+        el: "#app-2",
+        data: {
+          message: "aaaa"
+        }
+      });
+
+      var app3 = new Vue({
+        el: "#app3",
+        data: {
+          items: [{ name: "hhhh" }, { name: "ffff" }]
+        }
+      });
+
+      var app4 = new Vue({
+        el: "#app4",
+        data: {
+          message: "zzww"
+        },
+        methods: {
+          method: function () {
+            this.message = this.message.split("").reverse().join("");
+          }
+        },
+        computed: {
+          reverseMessage: function () {
+            return this.message.split("").reverse().join("");
+          }
+        }
+      });
+
+      //todolist 只能使用小写
+      Vue.component("todolist", {
+        props: ["dat"],
+        template: "<li>{{dat.name}}</li>"
+      });
+
+      var app5 = new Vue({
+        el: "#app5",
+        data: {
+          items: [
+            { id: 1, name: "ttt" },
+            { id: 2, name: "rrrr" },
+            { id: 3, name: "eeee" }
+          ]
+        },
+        created: function () {
+          console.log("created");
+        },
+        mounted: function () {
+          console.log("mounted");
+        },
+        updated: function () {
+          console.log("updated");
+        },
+        destroy: function () {
+          console.log("destroy");
+        }
+      });
+
+      var app6 = new Vue({
+        el: "#app6",
+        data: {
+          isActive: false,
+          error: {},
+          styleObj: {
+            color: "red",
+            fontSize: "13px"
+          }
+        },
+        computed: {
+          classObject: function () {
+            return {
+              active: true,
+              "text-danger": true
+            };
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
